@@ -48,4 +48,21 @@ jobs:
           flag_amd64=$(is_base "nextcloud@"$nextcloud_amd64 "treehouses/nextcloud@"$treehouses_nextcloud_amd64_sha)
           echo "flag amd64"
           echo $flag_amd64
-          
+          docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+          flag=$(compare "nextcloud@"$nextcloud_arm_sha "treehouses/nextcloud@"$treehouses_nextcloud_arm_sha "nextcloud@"$nextcloud_amd64_sha "treehouses/nextcloud@"$treehouses_nextcloud_amd64_sha "nextcloud@"$nextcloud_arm64_sha "treehouses/nextcloud@"$treehouses_nextcloud__arm64_sha)
+          echo $flag
+          deploy_images "$repo" arm
+          deploy_images "$repo" arm64
+          deploy_images "$repo" amd64
+          tag=$(date +%Y%m%d%H%M)
+          tag2="latest"
+          echo $tag
+          if [[ $flag == true ]]; then
+            docker manifest push $repo:$tag; docker manifest push $repo:$tag2
+          else
+            echo "no changes"
+          fi
+
+          create_manifest $repo $tag $tag2 $repo-tags:amd64 $repo-tags:arm $repo-tags:arm64
+          docker manifest inspect $repo:$tag
+          docker manifest inspect $repo:$tag2
