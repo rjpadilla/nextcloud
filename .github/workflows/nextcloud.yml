@@ -1,0 +1,24 @@
+name: Nextcloud
+
+on:
+  push:
+    schedule:
+      - cron: '0 */8 * * *'
+
+jobs:
+  build-nextcloud-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Login in Docker
+        uses: docker/login-action@v1
+        with:
+         username: ${{ secrets.DOCKERUSERNAME }}
+         password: ${{ secrets.DOCKERAPIKEY }}
+      - name: Create docker image
+        run: |
+          export DOCKER_CLI_EXPERIMENTAL=enabled
+
+       
+
