@@ -25,4 +25,18 @@ jobs:
           echo "nextcloud arm"
           echo $nextcloud_arm_sha
           treehouses_nextcloud_arm_sha=$(get_manifest_sha "treehouses/nextcloud:latest" "arm")
+          echo "treehouses nextcloud arm"
+          echo $treehouses_nextcloud_arm_sha
+          flag_arm=$(is_base "nextcloud@"$nextcloud_arm_sha "treehouses/nextcloud@"$treehouses_nextcloud_arm_sha)
+          echo "flag arm"
+          echo $flag_arm
+          nextcloud_arm64_sha=$(get_manifest_sha "nextcloud:latest" "arm64" "v7")
+          echo "nextcloud64 arm"
+          echo $nextcloud_arm64_sha
+          treehouses_nextcloud_arm_sha=$(get_manifest_sha "treehouses/nextcloud:latest" "arm64")
+          echo "treehouses nextcloud arm64"
+          echo $treehouses_nextcloud_arm64_sha
+          flag_arm64=$(is_base "nextcloud@"$nextcloud_arm64_sha "treehouses/nextcloud@"$treehouses_nextcloud_arm64_sha)
+          echo "flag arm64"
+          echo $flag_arm64
           
