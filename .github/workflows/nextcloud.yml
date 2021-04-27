@@ -54,7 +54,7 @@ jobs:
           build_image "treehouses/nextcloud:latest" amd64 "$repo"
           build_image "treehouses/nextcloud:latest" arm64 "$repo"
           echo 3
-          flag=$(compare "nextcloud@"$nextcloud_arm_sha "treehouses/nextcloud@"$treehouses_nextcloud_arm_sha "nextcloud@"$nextcloud_amd64_sha "treehouses/nextcloud@"$treehouses_nextcloud_amd64_sha "nextcloud@"$nextcloud_arm64_sha "treehouses/nextcloud@"$treehouses_nextcloud__arm64_sha)
+          flag=$(compare "treehouses/nextcloud@"$treehouses_nextcloud_arm_sha "nextcloud@"$nextcloud_arm_sha "treehouses/nextcloud@"$treehouses_nextcloud_amd64_sha "nextcloud@"$nextcloud_amd64_sha "treehouses/nextcloud@"$treehouses_nextcloud__arm64_sha "nextcloud@"$nextcloud_arm64_sha)
           echo $flag
           deploy_images "$repo" arm
           deploy_images "$repo" arm64
