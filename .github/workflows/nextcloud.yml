@@ -19,8 +19,6 @@ jobs:
       - name: Create docker image
         run: |
           export DOCKER_CLI_EXPERIMENTAL=enabled
-          export ACTIONS_RUNNER_DEBUG=true
-          export ACTIONS_STEP_DEBUG=true
           repo="rjpadilla/nextcloud"
           source utils.sh
           treehouses_nextcloud_arm_sha=$(get_manifest_sha "treehouses/nextcloud:latest" "arm")
