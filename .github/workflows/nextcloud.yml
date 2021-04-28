@@ -37,5 +37,5 @@ jobs:
           echo "nextcloud arm64"
           echo $nextcloud_arm64_sha
           flag_arm64=$(is_base "treehouses/nextcloud@"$treehouses_arm64_sha "nextcloud@"$nextcloud_arm64_sha)
-          echo "flag64 arm"
-          echo $flag64_arm
+          echo "flag arm64"
+          echo $flag_arm64
