@@ -21,4 +21,7 @@ jobs:
           export DOCKER_CLI_EXPERIMENTAL=enabled
           repo="rjpadilla/nextcloud"
           source .github/workflows/utils.sh
+          treehouses_arm_sha=$(get_manifest_sha "treehouses/nextcloud:latest" "arm")
+          echo "treehouses arm"
+          echo $treehouses_arm_sha
           
