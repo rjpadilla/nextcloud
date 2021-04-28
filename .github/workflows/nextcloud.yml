@@ -21,55 +21,50 @@ jobs:
           export DOCKER_CLI_EXPERIMENTAL=enabled
           repo="rjpadilla/nextcloud"
           source .github/workflows/utils.sh
-          treehouses_nextcloud_arm_sha=$(get_manifest_sha "treehouses/nextcloud:latest" "arm")
-          echo "treehouses nextcloud arm"
-          echo $treehouses_nextcloud_arm_sha
-          nextcloud_arm_sha=$(get_manifest_sha "nextcloud:latest" "arm" "v7")
+          alpine_arm_sha=$(get_manifest_sha "$repo:latest" "arm")
+          echo "$repo arm"
+          echo $alpine_arm_sha
+          nextcloud_arm_sha=$(get_manifest_sha "nextcloud:latest" "arm")
           echo "nextcloud arm"
           echo $nextcloud_arm_sha
-          flag_arm=$(is_base "treehouses/nextcloud@"$treehouses_nextcloud_arm_sha "nextcloud@"$nextcloud_arm_sha)
+          flag_arm=$(is_base "$repo@"$alpine_arm_sha "nextcloud@"$nextcloud_arm_sha)
           echo "flag arm"
           echo $flag_arm
-          nextcloud_arm64_sha=$(get_manifest_sha "nextcloud:latest" "arm64" "v7")
-          echo "nextcloud64 arm"
-          echo $nextcloud_arm64_sha
-          treehouses_nextcloud_arm64_sha=$(get_manifest_sha "treehouses/nextcloud:latest" "arm64")
-          echo "treehouses nextcloud arm64"
-          echo $treehouses_nextcloud_arm64_sha
-          flag_arm64=$(is_base "nextcloud@"$nextcloud_arm64_sha "treehouses/nextcloud@"$treehouses_nextcloud_arm64_sha)
-          echo "flag arm64"
-          echo $flag_arm64
-          nextcloud_amd64_sha=$(get_manifest_sha "nextcloud:latest" "amd64" "v7")
-          echo "nextcloud amd64"
+          alpine_amd64_sha=$(get_manifest_sha "$repo:latest" "amd64")
+          echo $alpine_amd64_sha
+          nextcloud_amd64_sha=$(get_manifest_sha "nextcloud:latest" "amd64")
           echo $nextcloud_amd64_sha
-          treehouses_nextcloud_amd64=$(get_manifest_sha "treehouses/nextcloud:latest" "amd64")
-          echo "treehouses nextcloud amd64"
-          echo $treehouses_nextcloud_amd64
-          flag_amd64=$(is_base "nextcloud@"$nextcloud_amd64 "treehouses/nextcloud@"$treehouses_nextcloud_amd64_sha)
+          flag_amd64=$(is_base "$repo@"$alpine_amd64_sha "nextcloud@"$nextcloud_amd64_sha)
           echo "flag amd64"
           echo $flag_amd64
-          echo 4
+          alpine_arm64_sha=$(get_manifest_sha "$repo:latest" "arm64")
+          echo "alpine arm64"
+          echo $alpine_arm64_sha
+          nextcloud_arm64_sha=$(get_manifest_sha "nextcloud:latest" "arm64")
+          echo "nextcloud arm64"
+          echo $nextcloud_arm64_sha
+          flag_arm64=$(is_base "$repo@"$alpine_arm64_sha "nextcloud@"$nextcloud_arm64_sha)
+          echo "flag arm64"
+          echo $flag_arm64
+          version2=$(image_version nextcloud:latest)
+          echo "repo version is $version2"
           docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-          build_image "treehouses/nextcloud:latest" arm "$repo"
-          build_image "treehouses/nextcloud:latest" amd64 "$repo"
-          build_image "treehouses/nextcloud:latest" arm64 "$repo"
-          echo 3
-          flag=$(compare "treehouses/nextcloud@"$treehouses_nextcloud_arm_sha "nextcloud@"$nextcloud_arm_sha "treehouses/nextcloud@"$treehouses_nextcloud_amd64_sha "nextcloud@"$nextcloud_amd64_sha "treehouses/nextcloud@"$treehouses_nextcloud__arm64_sha "nextcloud@"$nextcloud_arm64_sha)
+          build_image "$repo:latest" arm "$repo"
+          build_image "$repo:latest" amd64 "$repo"
+          build_image "$repo:latest" arm64 "$repo"
+          flag=$(compare "$repo@"$alpine_arm_sha "nextcloud@"$nextcloud_arm_sha "$repo@"$alpine_amd64_sha "nextcloud@"$nextcloud_amd64_sha "$repo@"$alpine_arm64_sha "nextcloud@"$nextcloud_arm64_sha "nextcloud" "nextcloud-tags:amd64")
           echo $flag
           deploy_image "$repo" arm
-          deploy_image "$repo" arm64
           deploy_image "$repo" amd64
-          echo 2
+          deploy_image "$repo" arm64
           tag=$(date +%Y%m%d%H%M)
           tag2="latest"
           echo $tag
-          echo 1
+          create_manifest $repo $tag $tag2 $repo-tags:amd64 $repo-tags:arm $repo-tags:arm64
+          docker manifest inspect $repo:$tag
+          docker manifest inspect $repo:$tag2
           if [[ $flag == true ]]; then
             docker manifest push $repo:$tag; docker manifest push $repo:$tag2
           else
             echo "no changes"
-          fi
-          echo 0
-          create_manifest $repo $tag $tag2 $repo-tags:amd64 $repo-tags:arm $repo-tags:arm64
-          docker manifest inspect $repo:$tag
-          docker manifest inspect $repo:$tag2
+          fi 

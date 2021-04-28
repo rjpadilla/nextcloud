@@ -1,29 +1,24 @@
 #!/bin/bash
 
+# Echos out sha function from saved .txt file
 get_manifest_sha() {
   local repo=$1
   local arch=$2
-  local var=$3
   docker pull -q $1 &>/dev/null
-  docker manifest inspect $1 > "$arch".txt
+  docker manifest inspect $1 > "$2".txt
   sha=""
   i=0
   while [ "$sha" == "" ] && read -r line; do
-    architecture=$(jq .manifests[$i].platform.architecture "$arch".txt |sed -e 's/^"//' -e 's/"$//')
-    if [ ! -z "$var" ] ;then
-      variant=$(jq .manifests[$i].platform.variant "$arch".txt |sed -e 's/^"//' -e 's/"$//')
-      if [ "$architecture" = "$arch" ] && [ "$variant" = "$var" ] ;then
-        sha=$(jq .manifests[$i].digest "$arch".txt  |sed -e 's/^"//' -e 's/"$//')
-        echo ${sha}
-      fi
-    elif [ "$architecture" = "$arch" ] ;then
-      sha=$(jq .manifests[$i].digest "$arch".txt  |sed -e 's/^"//' -e 's/"$//')
+    architecture=$(jq .manifests[$i].platform.architecture "$2".txt |sed -e 's/^"//' -e 's/"$//')
+    if [ "$architecture" = "$2" ];then
+      sha=$(jq .manifests[$i].digest "$2".txt  |sed -e 's/^"//' -e 's/"$//')
       echo ${sha}
     fi
     i=$i+1
-  done < "$arch".txt
+  done < "$2".txt
 }
 
+# Echos out sha function
 get_sha() {
   repo=$1
   docker pull $1 &>/dev/null
@@ -31,6 +26,7 @@ get_sha() {
   echo $sha
 }
 
+# Check if base is part of an image
 is_base() {
   local base_sha    # alpine
   local image_sha   # new image
@@ -77,25 +73,19 @@ compare() {
 
 create_manifest() {
   local repo=$1
-  local tag=$2
-  local x86=$3
-  local rpi=$4
-  local arm64=$5
-  docker manifest create $repo:$tag $x86 $rpi $arm64
-  docker manifest annotate $repo:$tag $x86 --arch amd64
-  docker manifest annotate $repo:$tag $rpi --arch arm
-  docker manifest annotate $repo:$tag $arm64 --arch arm64
-}
-
-create_manifests() {
-  local repo=$1
   local tag1=$2
   local tag2=$3
   local x86=$4
   local rpi=$5
   local arm64=$6
-  create_manifest $repo $tag1 $x86 $rpi $arm64
-  create_manifest $repo $tag2 $x86 $rpi $arm64
+  docker manifest create $repo:$tag1 $x86 $rpi $arm64
+  docker manifest create $repo:$tag2 $x86 $rpi $arm64
+  docker manifest annotate $repo:$tag1 $x86 --arch amd64
+  docker manifest annotate $repo:$tag1 $rpi --arch arm
+  docker manifest annotate $repo:$tag1 $arm64 --arch arm64
+  docker manifest annotate $repo:$tag2 $x86 --arch amd64
+  docker manifest annotate $repo:$tag2 $rpi --arch arm
+  docker manifest annotate $repo:$tag2 $arm64 --arch arm64
 }
 
 build_image(){
@@ -115,27 +105,6 @@ build_image(){
     sed "s|{{base_image}}|$base_image|g" Dockerfile.template > Dockerfile.$arch
     docker build -t $tag -f Dockerfile.$arch .
   fi
-}
-
-pull_image(){
-  local repo=$1  # this is the base repo, for example treehouses/alpine
-  local arch=$2  #arm arm64 amd64
-  local tag_repo=$3  # this is the tag repo, for example treehouses/node
-  local version=$4
-  if [ $# -le 1 ]; then
-    echo "missing parameters."
-    exit 1
-  fi
-  sha=$(get_manifest_sha $repo $arch $version)
-  echo $sha
-  base_image="$repo@$sha"
-  echo $base_image
-  tag1=$tag_repo:$arch
-  tag2=$tag_repo-tags:$arch
-  docker pull $base_image
-  docker tag $base_image $tag1
-  docker tag $base_image $tag2
-  echo $tag1
 }
 
 deploy_image(){
