@@ -39,3 +39,12 @@ jobs:
           flag_arm64=$(is_base "treehouses/nextcloud@"$treehouses_arm64_sha "nextcloud@"$nextcloud_arm64_sha)
           echo "flag arm64"
           echo $flag_arm64
+          treehouses_amd64_sha=$(get_manifest_sha "treehouses/nextcloud:latest" "amd64")
+          echo "treehouses amd64"
+          echo $treehouses_amd64_sha
+          nextcloud_amd64_sha=$(get_manifest_sha "nextcloud:latest" "amd64")
+          echo "nextcloud amd64"
+          echo $nextcloud_amd64_sha
+          flag_amd64=$(is_base "treehouses/nextcloud@"$treehouses_amd64_sha "nextcloud@"$nextcloud_amd64_sha)
+          echo "flag amd64"
+          echo $flag_amd64
