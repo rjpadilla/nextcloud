@@ -29,5 +29,5 @@ jobs:
           echo $nextcloud_arm_sha
           flag_arm=$(is_base "treehouses/nextcloud@"$treehouses_arm_sha "nextcloud@"$nextcloud_arm_sha)
           echo "flag arm"
-          echo $flag_arm_sha
+          echo $flag_arm
           
