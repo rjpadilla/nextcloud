@@ -48,3 +48,5 @@ jobs:
           flag_amd64=$(is_base "treehouses/nextcloud@"$treehouses_amd64_sha "nextcloud@"$nextcloud_amd64_sha)
           echo "flag amd64"
           echo $flag_amd64
+          version2=$(image_version nextcloud:latest)
+          echo "repo version is $version2"
