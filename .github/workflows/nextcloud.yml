@@ -58,9 +58,9 @@ jobs:
           echo 3
           flag=$(compare "treehouses/nextcloud@"$treehouses_nextcloud_arm_sha "nextcloud@"$nextcloud_arm_sha "treehouses/nextcloud@"$treehouses_nextcloud_amd64_sha "nextcloud@"$nextcloud_amd64_sha "treehouses/nextcloud@"$treehouses_nextcloud__arm64_sha "nextcloud@"$nextcloud_arm64_sha)
           echo $flag
-          deploy_images "$repo" arm
-          deploy_images "$repo" arm64
-          deploy_images "$repo" amd64
+          deploy_image "$repo" arm
+          deploy_image "$repo" arm64
+          deploy_image "$repo" amd64
           echo 2
           tag=$(date +%Y%m%d%H%M)
           tag2="latest"
