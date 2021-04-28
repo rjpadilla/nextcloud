@@ -27,7 +27,7 @@ jobs:
           nextcloud_arm_sha=$(get_manifest_sha "nextcloud:latest" "arm")
           echo "nextcloud arm"
           echo $nextcloud_arm_sha
-          flag_arm=$(is_base "treehouses/nextcloud@"$treehouses_arm_sha "nextcloud@"$nextcloud_arm_sha)
+          flag_arm=$(is_base "nextcloud@"$nextcloud_arm_sha "treehouses/nextcloud@"$treehouses_arm_sha)
           echo "flag arm"
           echo $flag_arm
           
