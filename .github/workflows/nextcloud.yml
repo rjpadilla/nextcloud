@@ -24,4 +24,7 @@ jobs:
           treehouses_arm_sha=$(get_manifest_sha "treehouses/nextcloud:latest" "arm")
           echo "treehouses arm"
           echo $treehouses_arm_sha
+          nextcloud_arm_sha=$(get_manifest_sha "nextcloud:latest" "arm")
+          echo "nextcloud arm"
+          echo $nextcloud_arm_sha
           
