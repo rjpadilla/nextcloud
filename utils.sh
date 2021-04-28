@@ -145,7 +145,7 @@ deploy_image(){
   tag_time=$(date +%Y%m%d%H%M)
   tag_arch_time=$repo-tags:$arch-$tag_time
   echo $tag_arch_time
-  docker push $repo:$arch
+  docker tag $tag_arch $tag_arch_time
   docker push $tag_arch
   docker tag $tag_arch $tag_arch_time
   docker push $tag_arch_time
