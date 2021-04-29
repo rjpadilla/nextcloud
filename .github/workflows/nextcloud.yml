@@ -36,7 +36,7 @@ jobs:
           tag2="latest"
           echo $tag
           docker manifest create $repo:$tag "treehouses/nextcloud@"$nextcloud_arm_sha "treehouses/nextcloud@"$nextcloud_arm64_sha "treehouses/nextcloud@"$nextcloud_amd64_sha
-          # docker manifest create $repo:$tag "nextcloud@"$nextcloud_x86_sha "nextcloud@"$arm_sha "nextcloud@"$nextcloud_arm64_sha
+          docker manifest create $repo:$tag2 "treehouses/nextcloud@"$nextcloud_arm_sha "treehouses/nextcloud@"$nextcloud_arm64_sha "treehouses/nextcloud@"$nextcloud_amd64_sha
           # docker manifest create $repo:latest "nextcloud@"$nextcloud_x86_sha "nextcloud@"$arm_sha "nextcloud@"$nextcloud_arm64_sha
           # docker manifest annotate $repo:latest "nextcloud@"$arm_sha --arch arm
           # docker manifest annotate $repo:$tag "nextcloud@"$nextcloud_arm64_sha --arch arm64
