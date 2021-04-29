@@ -21,7 +21,7 @@ jobs:
           export DOCKER_CLI_EXPERIMENTAL=enabled
           repo="rjpadilla/nextcloud"
           source sha_function.sh
-          nextcloud_x86_sha=$(get_variant_sha "treehouses/nextcloud" "latest" "amd64")
+          nextcloud_x86_sha=$(get_variant_sha "treehouses/nextcloud:latest" "arm" "v7")
           echo "nextcloud amd64"
           echo $nextcloud_x86_sha
           variant_nextcloud_x86_sha=$(get_manifest_sha "treehouses/nextcloud" "amd64")
