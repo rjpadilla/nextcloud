@@ -27,7 +27,7 @@ jobs:
           variant_nextcloud_x86_sha=$(get_manifest_sha "$repo:latest" "amd64")
           echo "treehouses/nextcloud amd64"
           echo $variant_nextcloud_x86_sha
-          arm_sha=$(get_tag_sha "nextcloud" "latest")
+          arm_sha=$(get_tag_sha "ownyourbits/nextcloudpi" "latest")
           echo $arm_sha
           variant_rpi_sha=$(get_manifest_sha "$repo:latest" "arm")
           echo $variant_rpi_sha
@@ -37,7 +37,7 @@ jobs:
           echo $variant_nextcloud_arm64_sha
           flag=$(compare_sha  "$nextcloud_x86_sha" "$variant_nextcloud_x86_sha" "$arm_sha" "$variant_rpi_sha" "$nextcloud_arm64_sha" "$variant_nextcloud_arm64_sha")
           echo $flag
-          tag="3.12-$(date +%Y%m%d%H%M)"
+          tag="$(date +%Y%m%d%H%M)"
           tag2="latest"
           echo $tag
           docker manifest create $repo:$tag "nextcloud@"$nextcloud_x86_sha "nextcloud@"$arm_sha "nextcloud@"$nextcloud_arm64_sha
