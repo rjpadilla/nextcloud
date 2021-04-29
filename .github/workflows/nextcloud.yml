@@ -27,7 +27,7 @@ jobs:
           variant_nextcloud_x86_sha=$(get_manifest_sha "$repo:latest" "amd64")
           echo "treehouses/nextcloud amd64"
           echo $variant_nextcloud_x86_sha
-          arm_sha=$(get_tag_sha "ownyourbits/nextcloudpi" "latest")
+          arm_sha=$(get_tag_sha "treehouses/nextcloud" "latest")
           echo $arm_sha
           variant_rpi_sha=$(get_manifest_sha "$repo:latest" "arm")
           echo $variant_rpi_sha
