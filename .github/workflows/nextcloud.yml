@@ -51,3 +51,4 @@ jobs:
           version2=$(image_version nextcloud:latest)
           echo "repo version is $version2"
           docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+          build_image "treehouses/nextcloud:latest" arm "$repo"
