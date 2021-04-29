@@ -40,7 +40,7 @@ jobs:
           tag="3.12-$(date +%Y%m%d%H%M)"
           tag2="latest"
           echo $tag
-          create_manifests $repo $tag "nextcloud@"$nextcloud_x86_sha "nextcloud@"$arm_sha "nextcloud@"$nextcloud_arm64_sha
+          docker manifest create $repo:$tag "nextcloud@"$nextcloud_x86_sha "nextcloud@"$arm_sha "nextcloud@"$nextcloud_arm64_sha
           # docker manifest create $repo:$tag "nextcloud@"$nextcloud_x86_sha "nextcloud@"$arm_sha "nextcloud@"$nextcloud_arm64_sha
           # docker manifest create $repo:latest "nextcloud@"$nextcloud_x86_sha "nextcloud@"$arm_sha "nextcloud@"$nextcloud_arm64_sha
           # docker manifest annotate $repo:latest "nextcloud@"$arm_sha --arch arm
