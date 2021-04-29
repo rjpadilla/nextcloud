@@ -40,14 +40,15 @@ jobs:
           tag="3.12-$(date +%Y%m%d%H%M)"
           tag2="latest"
           echo $tag
-          docker manifest create $repo:$tag "nextcloud@"$nextcloud_x86_sha "nextcloud@"$arm_sha "nextcloud@"$nextcloud_arm64_sha
-          docker manifest create $repo:latest "nextcloud@"$nextcloud_x86_sha "nextcloud@"$arm_sha "nextcloud@"$nextcloud_arm64_sha
-          docker manifest annotate $repo:latest "nextcloud@"$arm_sha --arch arm
-          docker manifest annotate $repo:$tag "nextcloud@"$nextcloud_arm64_sha --arch arm64
-          docker manifest annotate $repo:latest "nextcloud@"$nextcloud_arm64_sha --arch arm64
-          docker manifest annotate $repo:$tag "nextcloud@"$arm_sha --arch arm
-          docker manifest inspect $repo:$tag
-          docker manifest inspect $repo:$tag2
+          create_manifest $repo $tag "nextcloud@"$nextcloud_x86_sha "nextcloud@"$arm_sha "nextcloud@"$nextcloud_arm64_sha
+          # docker manifest create $repo:$tag "nextcloud@"$nextcloud_x86_sha "nextcloud@"$arm_sha "nextcloud@"$nextcloud_arm64_sha
+          # docker manifest create $repo:latest "nextcloud@"$nextcloud_x86_sha "nextcloud@"$arm_sha "nextcloud@"$nextcloud_arm64_sha
+          # docker manifest annotate $repo:latest "nextcloud@"$arm_sha --arch arm
+          # docker manifest annotate $repo:$tag "nextcloud@"$nextcloud_arm64_sha --arch arm64
+          # docker manifest annotate $repo:latest "nextcloud@"$nextcloud_arm64_sha --arch arm64
+          # docker manifest annotate $repo:$tag "nextcloud@"$arm_sha --arch arm
+          # docker manifest inspect $repo:$tag
+          # docker manifest inspect $repo:$tag2
           if [[ $flag == true ]]; then
             docker manifest push $repo:$tag; docker manifest push $repo:$tag2
           else
