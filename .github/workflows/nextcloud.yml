@@ -6,7 +6,7 @@ on:
       - cron: '0 */8 * * *'
 
 jobs:
-  build-nextcloud-image:
+  grab-sha-functions:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -30,7 +30,10 @@ jobs:
           nextcloud_arm64_sha=$(get_manifest_sha "treehouses/nextcloud" "arm64")
           echo $nextcloud_arm64_sha
           echo $nextcloud_arm64_sha
-      - name: Create docker images
+  create-docker-images:
+    needs: [grab-sha-functions]
+    runs-on: ubuntu-latest
+    steps:
         run: |
           flag=$(compare_sha "$nextcloud_arm_sha" "$nextcloud_arm64_sha" "nextcloud_amd64_sha")
           echo $flag
