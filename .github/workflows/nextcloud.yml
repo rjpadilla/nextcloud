@@ -20,7 +20,7 @@ jobs:
         run: |
           export DOCKER_CLI_EXPERIMENTAL=enabled
           repo="rjpadilla/nextcloud"
-          ./sha_function.sh
+          source sha_function.sh
           nextcloud_arm_sha=$(get_manifest_sha "treehouses/nextcloud:latest" "arm")
           echo "nextcloud arm"
           echo $nextcloud_arm_sha
