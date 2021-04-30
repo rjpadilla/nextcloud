@@ -30,6 +30,8 @@ jobs:
           nextcloud_arm64_sha=$(get_manifest_sha "treehouses/nextcloud" "arm64")
           echo $nextcloud_arm64_sha
           echo $nextcloud_arm64_sha
+      - name: Create docker images
+        run: |
           flag=$(compare_sha "$nextcloud_arm_sha" "$nextcloud_arm64_sha" "nextcloud_amd64_sha")
           echo $flag
           tag="$(date +%Y%m%d%H%M)"
