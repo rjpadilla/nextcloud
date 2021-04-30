@@ -16,7 +16,7 @@ jobs:
         with:
          username: ${{ secrets.DOCKERUSERNAME }}
          password: ${{ secrets.DOCKERAPIKEY }}
-      - name: Create docker image
+      - name: Create nextcloud image
         run: |
           export DOCKER_CLI_EXPERIMENTAL=enabled
           repo="rjpadilla/nextcloud"
