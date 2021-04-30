@@ -41,12 +41,6 @@ jobs:
           docker manifest annotate $repo:$tag "treehouses/nextcloud@"$nextcloud_arm64_sha --arch arm64
           docker manifest annotate $repo:$tag2 "treehouses/nextcloud@"$nextcloud_arm64_sha --arch arm64
           docker manifest annotate $repo:$tag "treehouses/nextcloud@"$nextcloud_arm_sha --arch arm
-          env
-          echo '*************************************'
-      - name: Inspect images
-        run: |
-          env
-          echo '*************************************'
           docker manifest inspect $repo:$tag
           docker manifest inspect $repo:$tag2
           if [[ $flag == true ]]; then
